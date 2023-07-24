@@ -15,7 +15,7 @@ function M.make_transparent()
 for _, group in ipairs(groups) do
   local old = vim.api.nvim_get_hl(0, { name = group })
   old.bg = "NONE"
-  vim.api.nvim_set_hl(0, group, opts)
+  vim.api.nvim_set_hl(0, group)
 end
 end
 

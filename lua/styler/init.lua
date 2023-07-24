@@ -5,7 +5,7 @@ M.themes = {}
 ---@type table<buffer, Theme>
 M.bufs = {}
 
-function make_transparent()
+function M.make_transparent()
 
 	local groups = { 'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
     'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
@@ -55,7 +55,7 @@ function M.update(opts)
       local theme = M.bufs[buf] or M.themes[ft]
       if theme then
         M.set_theme(win, theme)
-		make_transparent()
+		M.make_transparent()
       else
         M.clear(win)
       end

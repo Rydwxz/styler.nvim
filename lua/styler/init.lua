@@ -18,7 +18,7 @@ function M.set_theme(win, theme)
   local ns = require("styler.theme").load(theme)
   vim.api.nvim_win_set_hl_ns(win, ns)
 
-  require('transparent').toggle(true)
+  require('transparent').clear()
 
 end
 

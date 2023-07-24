@@ -18,14 +18,7 @@ function M.set_theme(win, theme)
   local ns = require("styler.theme").load(theme)
   vim.api.nvim_win_set_hl_ns(win, ns)
 
-  local groups = { 'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-    'SignColumn', 'CursorLineNr', 'EndOfBuffer' }
-
-  for _, group in ipairs(groups) do
-    vim.api.nvim_set_hl(0, group, {bg="NONE"})
-  end
+  require('transparent').toggle(true)
 
 end
 

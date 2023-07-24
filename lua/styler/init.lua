@@ -5,19 +5,6 @@ M.themes = {}
 ---@type table<buffer, Theme>
 M.bufs = {}
 
-function M.make_transparent()
-
-	local groups = { 'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-    'SignColumn', 'CursorLineNr', 'EndOfBuffer' }
-
-for _, group in ipairs(groups) do
-  local old = vim.api.nvim_get_hl(0, { name = group })
-  old.bg = "NONE"
-  vim.api.nvim_set_hl(0, group)
-end
-end
 
 ---@alias Theme {colorscheme: string, background?: "light"|"dark"}
 ---@alias ThemeHighlights table<string, table>
@@ -30,6 +17,17 @@ function M.set_theme(win, theme)
   vim.w[win].theme = theme
   local ns = require("styler.theme").load(theme)
   vim.api.nvim_win_set_hl_ns(win, ns)
+  local groups = { 'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+    'SignColumn', 'CursorLineNr', 'EndOfBuffer' }
+
+  for _, group in ipairs(groups) do
+    local old = vim.api.nvim_get_hl(0, { name = group })
+    old.bg = "NONE"
+    vim.api.nvim_set_hl(0, group)
+  end
+
 end
 
 function M.clear(win)
@@ -55,7 +53,6 @@ function M.update(opts)
       local theme = M.bufs[buf] or M.themes[ft]
       if theme then
         M.set_theme(win, theme)
-		M.make_transparent()
       else
         M.clear(win)
       end

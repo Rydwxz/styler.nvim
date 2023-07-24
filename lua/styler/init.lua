@@ -41,6 +41,7 @@ function M.update(opts)
       local theme = M.bufs[buf] or M.themes[ft]
       if theme then
         M.set_theme(win, theme)
+		vim.cmd('TransparentEnable')
       else
         M.clear(win)
       end

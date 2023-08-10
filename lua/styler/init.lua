@@ -37,7 +37,7 @@ local function clear_group(group)
     end
 end
 
-local function clear()
+local function tr_clear()
     -- local start = vim.loop.hrtime()
 
     clear_group(tr_config.groups)
@@ -55,7 +55,7 @@ function M.set_theme(win, theme)
   vim.w[win].theme = theme
   local ns = require("styler.theme").load(theme)
   vim.api.nvim_win_set_hl_ns(win, ns)
-    clear() -- set transparency - RW
+    tr_clear() -- set transparency - RW
 end
 
 function M.clear(win)

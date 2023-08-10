@@ -55,7 +55,6 @@ function M.set_theme(win, theme)
   vim.w[win].theme = theme
   local ns = require("styler.theme").load(theme)
   vim.api.nvim_win_set_hl_ns(win, ns)
-    tr_clear() -- set transparency - RW
 end
 
 function M.clear(win)
@@ -81,6 +80,7 @@ function M.update(opts)
       local theme = M.bufs[buf] or M.themes[ft]
       if theme then
         M.set_theme(win, theme)
+    tr_clear() -- set transparency - RW
       else
         M.clear(win)
       end

@@ -5,9 +5,47 @@ M.themes = {}
 ---@type table<buffer, Theme>
 M.bufs = {}
 
-
 ---@alias Theme {colorscheme: string, background?: "light"|"dark"}
 ---@alias ThemeHighlights table<string, table>
+
+--added by RW from transparent.nvim
+local tr_config = {
+  groups = {
+    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+    'SignColumn', 'CursorLineNr', 'EndOfBuffer',
+  },
+  extra_groups = {},
+  exclude_groups = {},
+}
+---@param group string|string[]
+local function clear_group(group)
+    local groups = type(group) == "string" and { group } or group
+    for _, v in ipairs(groups) do
+        if not vim.tbl_contains(tr_config.exclude_groups, v) then
+            pcall(function()
+                local attrs = vim.tbl_extend(
+                    "force",
+                    vim.api.nvim_get_hl_by_name(v, true),
+                    { bg = "NONE", ctermbg = "NONE" }
+                )
+                attrs[true] = nil
+                vim.api.nvim_set_hl(0, v, attrs)
+            end)
+        end
+    end
+end
+
+local function clear()
+    -- local start = vim.loop.hrtime()
+
+    clear_group(tr_config.groups)
+    clear_group(tr_config.extra_groups)
+    clear_group(type(vim.g.transparent_groups) == "table" and vim.g.transparent_groups or {})
+
+    -- print((vim.loop.hrtime() - start) / 1e6, "ms")
+end
 
 ---@param win window window id or 0 for the current window
 ---@param theme Theme
@@ -17,9 +55,7 @@ function M.set_theme(win, theme)
   vim.w[win].theme = theme
   local ns = require("styler.theme").load(theme)
   vim.api.nvim_win_set_hl_ns(win, ns)
-
-  require('transparent').clear()
-
+    clear() -- set transparency - RW
 end
 
 function M.clear(win)
